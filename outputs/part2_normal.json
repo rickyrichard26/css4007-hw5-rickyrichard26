@@ -1,0 +1,42 @@
+{
+  "status_profile": "normal",
+  "user_id": "demo-user-a",
+  "thread_id": "part2-demo",
+  "model": "openai/gpt-4o-mini",
+  "provider": "openrouter.ai",
+  "max_steps": 8,
+  "limit_reached": false,
+  "nodes_visited": [
+    "model_node",
+    "tool_node",
+    "model_node"
+  ],
+  "events": [
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "",
+      "tool_calls": [
+        {
+          "name": "check_service_status",
+          "args": {
+            "service": "wifi"
+          },
+          "id": "call_g9GSVQtrk3AvdOA34nGbPCYr",
+          "type": "tool_call"
+        }
+      ]
+    },
+    {
+      "node": "tool_node",
+      "type": "tool",
+      "content": "{\"service\": \"wifi\", \"status\": \"operational\", \"message\": \"The demo Wi-Fi service has no reported outage.\", \"status_profile\": \"normal\"}",
+      "tool_name": "check_service_status"
+    },
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "The Wi-Fi service is operational, so we can prepare a ticket for you. Could you please provide a brief description of the problem and the steps you have already tried?"
+    }
+  ]
+}

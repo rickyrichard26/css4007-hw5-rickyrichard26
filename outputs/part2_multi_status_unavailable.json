@@ -1,0 +1,56 @@
+{
+  "status_profile": "status_unavailable",
+  "user_id": "demo-user-a",
+  "thread_id": "part2-demo",
+  "model": "openai/gpt-4o-mini",
+  "provider": "openrouter.ai",
+  "max_steps": 8,
+  "limit_reached": false,
+  "nodes_visited": [
+    "model_node",
+    "tool_node",
+    "model_node"
+  ],
+  "events": [
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "",
+      "tool_calls": [
+        {
+          "name": "find_instructions",
+          "args": {
+            "topic": "wifi"
+          },
+          "id": "call_EzdRpOKtRXLwxxe43IDpP33D",
+          "type": "tool_call"
+        },
+        {
+          "name": "check_service_status",
+          "args": {
+            "service": "wifi"
+          },
+          "id": "call_dAHTCcqBBTC6eXDgIqANsLVL",
+          "type": "tool_call"
+        }
+      ]
+    },
+    {
+      "node": "tool_node",
+      "type": "tool",
+      "content": "{\"topic\": \"wifi\", \"instruction_id\": \"GUIDE-WIFI\", \"title\": \"Connect to the practice campus network\", \"steps\": [\"Check that Wi-Fi is enabled and airplane mode is off.\", \"Select the fictional Campus-Demo network.\", \"If connection fails, forget the saved network and try connecting again.\", \"If the problem remains, check the service status before preparing a ticket.\"]}",
+      "tool_name": "find_instructions"
+    },
+    {
+      "node": "tool_node",
+      "type": "tool",
+      "content": "{\"service\": \"wifi\", \"status\": \"unknown\", \"message\": \"The demo Wi-Fi status source is unavailable.\", \"status_profile\": \"status_unavailable\"}",
+      "tool_name": "check_service_status"
+    },
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "Here are the official instructions for connecting to the practice campus network:\n\n### Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket.\n\nRegarding the Wi-Fi service status, it is currently **unknown**, meaning I cannot confirm if it is operational or experiencing an outage. Would you like me to prepare a draft ticket for you? If so, please provide a brief summary of the problem and any additional steps you have tried."
+    }
+  ]
+}

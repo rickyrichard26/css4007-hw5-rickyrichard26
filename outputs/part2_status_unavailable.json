@@ -1,0 +1,42 @@
+{
+  "status_profile": "status_unavailable",
+  "user_id": "demo-user-a",
+  "thread_id": "part2-demo",
+  "model": "openai/gpt-4o-mini",
+  "provider": "openrouter.ai",
+  "max_steps": 8,
+  "limit_reached": false,
+  "nodes_visited": [
+    "model_node",
+    "tool_node",
+    "model_node"
+  ],
+  "events": [
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "",
+      "tool_calls": [
+        {
+          "name": "check_service_status",
+          "args": {
+            "service": "wifi"
+          },
+          "id": "call_fjPd7zT3Pc9pX3S8UMO1pQlB",
+          "type": "tool_call"
+        }
+      ]
+    },
+    {
+      "node": "tool_node",
+      "type": "tool",
+      "content": "{\"service\": \"wifi\", \"status\": \"unknown\", \"message\": \"The demo Wi-Fi status source is unavailable.\", \"status_profile\": \"status_unavailable\"}",
+      "tool_name": "check_service_status"
+    },
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "The Wi-Fi service status cannot be confirmed at the moment, so it is neither operational nor confirmed to be down. Would you like me to prepare a draft ticket for you? If so, please provide a brief description of the problem and the steps you've already tried."
+    }
+  ]
+}

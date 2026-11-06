@@ -1,0 +1,202 @@
+[
+  {
+    "graph": "original",
+    "message": "I cannot connect to Wi-Fi.",
+    "nodes_visited": [
+      "read_request",
+      "wifi_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi"
+        }
+      },
+      {
+        "after_node": "wifi_help",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi",
+          "reply": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket."
+        }
+      }
+    ]
+  },
+  {
+    "graph": "original",
+    "message": "I forgot my PASSWORD.",
+    "nodes_visited": [
+      "read_request",
+      "password_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "I forgot my PASSWORD.",
+          "category": "password"
+        }
+      },
+      {
+        "after_node": "password_help",
+        "state": {
+          "message": "I forgot my PASSWORD.",
+          "category": "password",
+          "reply": "[GUIDE-PASSWORD] Recover access to the practice account\n1. Open the practice sign-in screen and choose Forgot password.\n2. Follow the recovery instructions shown by the practice application.\n3. If recovery is unavailable, prepare a ticket describing the error.\n4. Never include a password or recovery code in a ticket."
+        }
+      }
+    ]
+  },
+  {
+    "graph": "original",
+    "message": "My laptop screen is broken.",
+    "nodes_visited": [
+      "read_request",
+      "other_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other"
+        }
+      },
+      {
+        "after_node": "other_help",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other",
+          "reply": "Is your problem about Wi-Fi or a password?"
+        }
+      }
+    ]
+  },
+  {
+    "graph": "original",
+    "message": "My Wi-Fi password does not work.",
+    "nodes_visited": [
+      "read_request",
+      "wifi_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "wifi"
+        }
+      },
+      {
+        "after_node": "wifi_help",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "wifi",
+          "reply": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket."
+        }
+      }
+    ]
+  },
+  {
+    "graph": "with_clarify",
+    "message": "I cannot connect to Wi-Fi.",
+    "nodes_visited": [
+      "read_request",
+      "wifi_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi"
+        }
+      },
+      {
+        "after_node": "wifi_help",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi",
+          "reply": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket."
+        }
+      }
+    ]
+  },
+  {
+    "graph": "with_clarify",
+    "message": "I forgot my PASSWORD.",
+    "nodes_visited": [
+      "read_request",
+      "password_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "I forgot my PASSWORD.",
+          "category": "password"
+        }
+      },
+      {
+        "after_node": "password_help",
+        "state": {
+          "message": "I forgot my PASSWORD.",
+          "category": "password",
+          "reply": "[GUIDE-PASSWORD] Recover access to the practice account\n1. Open the practice sign-in screen and choose Forgot password.\n2. Follow the recovery instructions shown by the practice application.\n3. If recovery is unavailable, prepare a ticket describing the error.\n4. Never include a password or recovery code in a ticket."
+        }
+      }
+    ]
+  },
+  {
+    "graph": "with_clarify",
+    "message": "My laptop screen is broken.",
+    "nodes_visited": [
+      "read_request",
+      "other_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other"
+        }
+      },
+      {
+        "after_node": "other_help",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other",
+          "reply": "Is your problem about Wi-Fi or a password?"
+        }
+      }
+    ]
+  },
+  {
+    "graph": "with_clarify",
+    "message": "My Wi-Fi password does not work.",
+    "nodes_visited": [
+      "read_request",
+      "clarify_problem"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "both"
+        }
+      },
+      {
+        "after_node": "clarify_problem",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "both",
+          "reply": "Your message mentions both Wi-Fi and a password. Which problem do you want to solve first: connecting to Wi-Fi, or recovering your account password?"
+        }
+      }
+    ]
+  }
+]

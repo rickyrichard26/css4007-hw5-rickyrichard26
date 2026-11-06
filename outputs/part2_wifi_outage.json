@@ -1,0 +1,42 @@
+{
+  "status_profile": "wifi_outage",
+  "user_id": "demo-user-a",
+  "thread_id": "part2-demo",
+  "model": "openai/gpt-4o-mini",
+  "provider": "openrouter.ai",
+  "max_steps": 8,
+  "limit_reached": false,
+  "nodes_visited": [
+    "model_node",
+    "tool_node",
+    "model_node"
+  ],
+  "events": [
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "",
+      "tool_calls": [
+        {
+          "name": "check_service_status",
+          "args": {
+            "service": "wifi"
+          },
+          "id": "call_8P6BjlGvZIvjfiapgLgmcPBl",
+          "type": "tool_call"
+        }
+      ]
+    },
+    {
+      "node": "tool_node",
+      "type": "tool",
+      "content": "{\"service\": \"wifi\", \"status\": \"outage\", \"message\": \"The demo Wi-Fi service is unavailable across campus. The fixture gives no repair time.\", \"status_profile\": \"wifi_outage\"}",
+      "tool_name": "check_service_status"
+    },
+    {
+      "node": "model_node",
+      "type": "ai",
+      "content": "There is currently a known outage affecting the Wi-Fi service across campus, so it is not operational. Unfortunately, I cannot prepare a ticket at this time. Please check back later for updates on the service status."
+    }
+  ]
+}

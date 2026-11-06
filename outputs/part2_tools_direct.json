@@ -1,0 +1,53 @@
+{
+  "find_instructions(wifi)": {
+    "topic": "wifi",
+    "instruction_id": "GUIDE-WIFI",
+    "title": "Connect to the practice campus network",
+    "steps": [
+      "Check that Wi-Fi is enabled and airplane mode is off.",
+      "Select the fictional Campus-Demo network.",
+      "If connection fails, forget the saved network and try connecting again.",
+      "If the problem remains, check the service status before preparing a ticket."
+    ]
+  },
+  "find_instructions(unknown)": {
+    "error": "unknown_topic",
+    "supported_topics": [
+      "wifi",
+      "password"
+    ]
+  },
+  "check_service_status(wifi, normal)": {
+    "service": "wifi",
+    "status": "operational",
+    "message": "The demo Wi-Fi service has no reported outage.",
+    "status_profile": "normal"
+  },
+  "prepare_ticket(complete)": {
+    "ticket": {
+      "ticket_id": "HD-9D77C90A",
+      "status": "draft",
+      "user_id": "demo-user-a",
+      "thread_id": "direct-demo",
+      "category": "wifi",
+      "summary": "Cannot connect to Campus-Demo Wi-Fi.",
+      "steps_tried": [
+        "Turned Wi-Fi off and on",
+        "Forgot the network and reconnected"
+      ],
+      "service_status": "operational",
+      "status_profile": "normal",
+      "reference_ids": [
+        "GUIDE-WIFI"
+      ]
+    },
+    "saved_to": "local-storage\\tickets\\HD-9D77C90A.json"
+  },
+  "prepare_ticket(missing steps)": {
+    "error": "missing_information",
+    "missing": [
+      "steps already tried"
+    ],
+    "note": "Ask the user for these details; do not invent them."
+  }
+}
