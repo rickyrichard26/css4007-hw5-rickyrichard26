@@ -270,27 +270,55 @@ The preference travelled to a new thread of the same user, while the conversatio
 
 ## Part 4 — Running and checking my work
 
-TODO: point to the README setup steps, package versions, memory-reset instructions, tests and GitHub Actions workflow. Explain which mistake each test catches and which runs use a fake model.
+- **Setup, run commands, memory locations and reset:** see `README.md` (Python 3.12, `pip install -r requirements.txt`, copy `.env.example` to `.env`).
+- **Package versions:** `requirements.txt` holds the exact versions from my environment (`pip freeze` of the packages I import and their LangChain/LangGraph core).
+- **Tests:** `python -m pytest -q`, in `tests/test_helpdesk.py`.
+- **GitHub Actions:** `.github/workflows/tests.yml` installs the pinned packages and runs the tests on every push, without any API key.
+
+The tests use a **scripted fake model** (`FakeModel`). It returns fixed replies and tool requests, so the tests check my code (graphs, tools, memory), not the quality of a real model. All demos, S06–S14 and the Part 2/3 runs use the real model `openai/gpt-4o-mini` through OpenRouter; S01–S05 use no model.
+
+| Test | Mistake it would catch |
+| --- | --- |
+| `test_original_graph_routes` | A wrong route, for example password text going to the Wi-Fi node, or case-sensitive matching |
+| `test_clarify_graph_asks_when_both_topics` | The clarification node not being reached, or other routes changing after my graph change |
+| `test_find_instructions_known_and_unknown` | A wrong instruction id, or an unknown topic returning made-up steps |
+| `test_status_follows_selected_snapshot` | The status tool ignoring the selected snapshot, or mapping password to the wrong service |
+| `test_ticket_contains_only_given_steps_and_is_saved` | A ticket with invented steps, a wrong template field, or no local file |
+| `test_ticket_needs_details_and_writes_nothing` | A ticket created from missing information |
+| `test_ticket_rejects_secrets` | A password or recovery code being written into a ticket |
+| `test_loop_runs_requested_tool_and_returns_result_to_model` | The tool result not reaching the model, or the loop not ending after the answer |
+| `test_loop_limit_stops_a_model_that_never_stops` | An endless tool loop (the step limit not working) |
+| `test_user_memory_persists_and_is_per_user` | A preference lost after reload, or shared between users |
+| `test_memory_tool_writes_only_for_its_fixed_user` | The model choosing whose memory to write, or a language value used to inject text |
+| `test_conversation_survives_reconnect_and_stays_with_its_key` | Conversation state lost after closing the database, or leaking to another user's key |
+| `test_saved_preference_reaches_only_its_own_users_prompt` | The saved language appearing in another user's prompt |
 
 ## Choices and limitations
 
-TODO: explain the storage and libraries I chose, why they fit this task, and what still does not work reliably.
+- **Storage:** SQLite (LangGraph `SqliteSaver`) for conversation state, because it is a single local file, survives restarts and is included in the supplied dependencies. A small JSON file for user preferences, because there is only one preference type and it is easy to inspect and reset. Both live in `local-storage/`, which git ignores.
+- **Libraries:** `langgraph` for the graphs, `langchain-openai` for the model client (also used for OpenRouter through its OpenAI-compatible API), `pytest` for tests.
+- **Tool access:** `user_id`, `thread_id` and the status profile are fixed by my application inside the tools; the model cannot choose them.
+- **Model behaviour depends on the prompt.** With `gpt-4o-mini` my first system prompt created a ticket during S08 (status unknown), and created tickets nobody asked for in S10 and S11. A second version made S06 regress (the model asked again for details it already had). The final prompt has explicit ticket rules and three examples. The logs of the earlier versions are in `outputs/first_prompt/` and `outputs/second_prompt/`.
+- **Remaining weaknesses:** in S14 the model still mentions that it cannot prepare a ticket although none was requested. In S09 it prepared the ticket without calling `check_service_status` first (the ticket tool reads the snapshot itself). Saving a preference depends on the model deciding to call `save_language_preference`; it worked in my runs but nothing forces it. Earlier Part 2 and Part 3 logs were made with earlier versions of the system prompt. Replies in Kazakh were not checked by a fluent reader.
+- **Tests do not measure the real model.** They check the graph structure, tools and memory with a fake model.
 
 ## Supplied scenarios — my actual results
 
+Every scenario was run with `python run_scenarios.py` (all at once, or `--only S06` for one). The runner reads `data/scenarios.json`, resets storage when `reset_before` is true, and starts a **new Python process** at every `restart_process` event and whenever the user or thread changes. S01–S05 use the Part 1 graph (no model). S06–S14 use the agent through `chat.py` with `openai/gpt-4o-mini` via OpenRouter. Final logs are `outputs/S01.json` … `outputs/S14.json`; ticket drafts are copied to `outputs/tickets/`.
+
 | Scenario | Command or manual steps | Log file | What happened / what I changed |
 | --- | --- | --- | --- |
-| S01 — Simple Wi-Fi route | | | |
-| S02 — Case-insensitive password route | | | |
-| S03 — Unsupported request | | | |
-| S04 — Two topics before the graph change | | | |
-| S05 — Two topics after adding clarification | | | |
-| S06 — Instructions then local ticket | | | |
-| S07 — The same request during a Wi-Fi outage | | | |
-| S08 — Status source unavailable | | | |
-| S09 — Missing ticket details | | | |
-| S10 — Use the current conversation | | | |
-| S11 — Persist and recall after restart | | | |
-| S12 — Preference across threads without replay | | | |
-| S13 — Do not share memory between users | | | |
-| S14 — Password recovery outage | | | |
+| S01 — Simple Wi-Fi route | `python run_scenarios.py --only S01` | `outputs/S01.json` | `read_request -> wifi_help`; reply is the GUIDE-WIFI steps. Nothing to change. |
+| S02 — Case-insensitive password route | `python run_scenarios.py --only S02` | `outputs/S02.json` | `read_request -> password_help`; "PASSWORD" matched because the message is lowercased. |
+| S03 — Unsupported request | `python run_scenarios.py --only S03` | `outputs/S03.json` | `read_request -> other_help`; the fallback asks whether the problem is Wi-Fi or a password. |
+| S04 — Two topics before the graph change | `python run_scenarios.py --only S04` (original graph) | `outputs/S04.json` | `read_request -> wifi_help`: the Wi-Fi rule is checked first, so the password part of "My Wi-Fi password does not work." is ignored. |
+| S05 — Two topics after adding clarification | `python run_scenarios.py --only S05` (graph with `clarify_problem`) | `outputs/S05.json` | `read_request -> clarify_problem`: the classifier sets `category = both` and the router sends the request to a new node that asks which problem to solve first. The route changed, not just the wording. |
+| S06 — Instructions then local ticket | `python run_scenarios.py --only S06` (two turns, one process) | `outputs/S06.json`, ticket `outputs/tickets/HD-9545E44F.json` | Turn 1 called `find_instructions`. Turn 2 called `check_service_status` (operational) and `prepare_ticket`; the draft lists only the steps I stated. Earlier prompt versions failed here: after my first tightening of the ticket rule the model asked again for details it already had (`outputs/second_prompt/S06.json`). I added explicit rules and examples to the system prompt. |
+| S07 — The same request during a Wi-Fi outage | `python run_scenarios.py --only S07` | `outputs/S07.json` | Only `check_service_status` was called (outage). No ticket was prepared, the answer explained the outage and gave no repair time. |
+| S08 — Status source unavailable | `python run_scenarios.py --only S08` | `outputs/S08.json` | Status `unknown`: no ticket, the model said it could not confirm Wi-Fi was operating and offered a draft. In my first run it created ticket HD-97A4C279 anyway, which broke my condition "if it is operating" (`outputs/first_prompt/S08.json`). I changed the system prompt so `unknown` means: do not prepare, offer a draft. |
+| S09 — Missing ticket details | `python run_scenarios.py --only S09` (two turns, one process) | `outputs/S09.json`, ticket `outputs/tickets/HD-ADF83A84.json` | Turn 1 asked for the problem and steps and called no tool. Turn 2 prepared a draft from my reply. The model did not call `check_service_status` in turn 2, but `prepare_ticket` read the snapshot itself, so the ticket records the status. The summary in the draft is short ("Wi-Fi issue"). |
+| S10 — Use the current conversation | `python run_scenarios.py --only S10` (two turns, one process) | `outputs/S10.json` | Turn 2 loaded 4 earlier messages and repeated the steps I had tried. In earlier runs the assistant also prepared a ticket in turn 1 that nobody asked for (HD-D7F03D04, HD-8323C9B1). The final prompt says describing a problem is not a request for a ticket; the final run created none. |
+| S11 — Persist and recall after restart | `python run_scenarios.py --only S11` (process 1, `restart_process`, process 2) | `outputs/S11.json` | Process 1 saved the Kazakh preference with `save_language_preference`. Process 2 (different process id) loaded 5 earlier messages, read the preference from user memory, and answered in Kazakh with the problem and steps. Earlier runs created an unrequested ticket in turn 1; fixed with the same prompt change as S10. |
+| S12 — Preference across threads without replay | `python run_scenarios.py --only S12` (`preference-a1`, restart, `preference-a2`) | `outputs/S12.json` | In the new thread 0 earlier messages were loaded, but `read_user_memory` held `reply_language: Kazakh`, so the model answered in Kazakh about the language and its capabilities. The old transcript was not replayed. |
+| S13 — Do not share memory between users | `python run_scenarios.py --only S13` | `outputs/S13.json` | `demo-user-b` had no stored preference and 0 earlier messages, and the model said no language or problem had been mentioned. `user_memory.json` held only `demo-user-a`. |
+| S14 — Password recovery outage | `python run_scenarios.py --only S14` | `outputs/S14.json` | The model called `check_service_status` for password recovery (mapped to `account_recovery`, outage), gave no repair time and invented nothing. Limitation: it still said it could not prepare a ticket, which was not requested. |
