@@ -1,0 +1,18 @@
+{
+  "ticket_id": "HD-8323C9B1",
+  "status": "draft",
+  "user_id": "demo-user-a",
+  "thread_id": "s10",
+  "category": "wifi",
+  "summary": "Unable to connect to Wi-Fi after forgetting the saved network.",
+  "steps_tried": [
+    "Enabled Wi-Fi",
+    "Forgot the saved network",
+    "Tried reconnecting to the network"
+  ],
+  "service_status": "operational",
+  "status_profile": "normal",
+  "reference_ids": [
+    "GUIDE-WIFI"
+  ]
+}

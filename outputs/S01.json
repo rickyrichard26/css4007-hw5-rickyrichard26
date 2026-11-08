@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "S01",
+    "scenario_title": "Simple Wi-Fi route",
+    "scenario_part": 1,
+    "launch_command": "python run_scenarios.py --only S01",
+    "graph_variant": "original",
+    "status_profile": "normal",
+    "user_id": "demo-user-a",
+    "thread_id": "s01",
+    "user_message": "I cannot connect to Wi-Fi.",
+    "nodes_visited": [
+      "read_request",
+      "wifi_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi"
+        }
+      },
+      {
+        "after_node": "wifi_help",
+        "state": {
+          "message": "I cannot connect to Wi-Fi.",
+          "category": "wifi",
+          "reply": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket."
+        }
+      }
+    ],
+    "information_source": "reference file (data/helpdesk.json)",
+    "final_response": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket.",
+    "ticket_file": null,
+    "loop_limit_reached": "not applicable (no model, no loop)"
+  }
+]

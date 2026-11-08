@@ -1,0 +1,17 @@
+{
+  "ticket_id": "HD-97A4C279",
+  "status": "draft",
+  "user_id": "demo-user-a",
+  "thread_id": "s08",
+  "category": "wifi",
+  "summary": "Unable to connect to Wi-Fi after enabling and reconnecting.",
+  "steps_tried": [
+    "Enabled Wi-Fi",
+    "Reconnected to the network"
+  ],
+  "service_status": "unknown",
+  "status_profile": "status_unavailable",
+  "reference_ids": [
+    "GUIDE-WIFI"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "ticket_id": "HD-F9FA2463",
+  "status": "draft",
+  "user_id": "demo-user-a",
+  "thread_id": "s09",
+  "category": "wifi",
+  "summary": "Wi-Fi is enabled but fails to reconnect.",
+  "steps_tried": [
+    "Enabled Wi-Fi and tried reconnecting."
+  ],
+  "service_status": "operational",
+  "status_profile": "normal",
+  "reference_ids": [
+    "GUIDE-WIFI"
+  ]
+}

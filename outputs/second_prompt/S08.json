@@ -1,0 +1,40 @@
+[
+  {
+    "scenario": "S08",
+    "process_id": 8664,
+    "user_id": "demo-user-a",
+    "thread_id": "s08",
+    "checkpoint_key": "demo-user-a:s08",
+    "status_profile": "status_unavailable",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Check whether Wi-Fi is down. If it is operating, prepare a ticket. I already enabled Wi-Fi and reconnected, with no success.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "The Wi-Fi service status could not be determined, so I cannot confirm if it is operating. Would you like me to prepare a draft ticket explaining that the status could not be checked?",
+    "launch_command": "python chat.py --user demo-user-a --thread s08 --profile status_unavailable --scenario S08 --log outputs/S08.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Status source unavailable",
+    "scenario_part": 2,
+    "ticket_copies": []
+  }
+]

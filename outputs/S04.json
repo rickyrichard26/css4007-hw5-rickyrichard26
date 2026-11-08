@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "S04",
+    "scenario_title": "Two topics before the graph change",
+    "scenario_part": 1,
+    "launch_command": "python run_scenarios.py --only S04",
+    "graph_variant": "original",
+    "status_profile": "normal",
+    "user_id": "demo-user-a",
+    "thread_id": "s04",
+    "user_message": "My Wi-Fi password does not work.",
+    "nodes_visited": [
+      "read_request",
+      "wifi_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "wifi"
+        }
+      },
+      {
+        "after_node": "wifi_help",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "wifi",
+          "reply": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket."
+        }
+      }
+    ],
+    "information_source": "reference file (data/helpdesk.json)",
+    "final_response": "[GUIDE-WIFI] Connect to the practice campus network\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket.",
+    "ticket_file": null,
+    "loop_limit_reached": "not applicable (no model, no loop)"
+  }
+]

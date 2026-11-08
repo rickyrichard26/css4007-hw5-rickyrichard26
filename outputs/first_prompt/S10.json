@@ -1,0 +1,87 @@
+[
+  {
+    "scenario": "S10",
+    "process_id": 20896,
+    "user_id": "demo-user-a",
+    "thread_id": "s10",
+    "checkpoint_key": "demo-user-a:s10",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "I cannot connect to Wi-Fi. I enabled it and forgot the saved network, but reconnecting failed.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      },
+      {
+        "tool": "prepare_ticket",
+        "args": {
+          "category": "wifi",
+          "summary": "Unable to connect to Wi-Fi after forgetting the saved network.",
+          "steps_tried": [
+            "Enabled Wi-Fi",
+            "Forgot the saved network",
+            "Tried reconnecting to the network"
+          ]
+        },
+        "source": "local ticket draft file (write)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [
+      "local-storage\\tickets\\HD-D7F03D04.json"
+    ],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "I've prepared a draft ticket for your Wi-Fi connection issue. Here are the details:\n\n- **Summary**: Unable to connect to Wi-Fi after forgetting the saved network.\n- **Steps Tried**: \n  - Enabled Wi-Fi\n  - Forgot the saved network\n  - Tried reconnecting to the network\n\nIf you need any further assistance or want to submit the ticket, just let me know!",
+    "launch_command": "python chat.py --user demo-user-a --thread s10 --profile normal --scenario S10 --log outputs/S10.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Use the current conversation",
+    "scenario_part": 3,
+    "ticket_copies": [
+      "outputs/tickets/HD-D7F03D04.json"
+    ]
+  },
+  {
+    "scenario": "S10",
+    "process_id": 20896,
+    "user_id": "demo-user-a",
+    "thread_id": "s10",
+    "checkpoint_key": "demo-user-a:s10",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Which steps did I already try?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 6
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "You have already tried the following steps:\n\n1. Enabled Wi-Fi\n2. Forgot the saved network\n3. Tried reconnecting to the network\n\nIf you need further assistance or want to add more details to the ticket, feel free to ask!",
+    "launch_command": "python chat.py --user demo-user-a --thread s10 --profile normal --scenario S10 --log outputs/S10.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Use the current conversation",
+    "scenario_part": 3,
+    "ticket_copies": []
+  }
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "scenario": "S11",
+    "process_id": 19928,
+    "user_id": "demo-user-a",
+    "thread_id": "restart-a",
+    "checkpoint_key": "demo-user-a:restart-a",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Please remember that I prefer replies in Kazakh. My issue is Wi-Fi. I enabled it and tried reconnecting, but it still fails.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "save_language_preference",
+        "args": {
+          "language": "Kazakh"
+        },
+        "source": "user memory (write)"
+      },
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [
+      {
+        "reply_language": "Kazakh"
+      }
+    ],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сәлем! Wi-Fi қызметі жұмыс істеп тұр. Сіз Wi-Fi-ды қосып, қайта қосылуға тырысқаныңызды айттыңыз. Қандай да бір қосымша қадамдарды жасадыңыз ба? Мысалы, маршрутизаторды қайта қосу немесе құрылғыны қайта жүктеу? Осы әрекеттерді атап өтсеңіз, мен сіз үшін қолдау билетін дайындай аламын.",
+    "launch_command": "python chat.py --user demo-user-a --thread restart-a --profile normal --scenario S11 --log outputs/S11.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Persist and recall after restart",
+    "scenario_part": 3,
+    "ticket_copies": []
+  },
+  {
+    "scenario": "S11",
+    "process_id": 11708,
+    "user_id": "demo-user-a",
+    "thread_id": "restart-a",
+    "checkpoint_key": "demo-user-a:restart-a",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Which problem and steps did we discuss?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 5
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сіз Wi-Fi-ды қосып, қайта қосылуға тырысқаныңызды айттыңыз, бірақ ол әлі де жұмыс істемейді. Қандай да бір қосымша әрекеттер жасадыңыз ба? Мысалы, маршрутизаторды қайта қосу немесе құрылғыны қайта жүктеу?",
+    "launch_command": "python chat.py --user demo-user-a --thread restart-a --profile normal --scenario S11 --log outputs/S11.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Persist and recall after restart",
+    "scenario_part": 3,
+    "ticket_copies": []
+  }
+]

@@ -1,0 +1,40 @@
+[
+  {
+    "scenario": "S07",
+    "process_id": 11200,
+    "user_id": "demo-user-a",
+    "thread_id": "s07",
+    "checkpoint_key": "demo-user-a:s07",
+    "status_profile": "wifi_outage",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "I enabled Wi-Fi and forgot the saved network, but Campus-Demo still will not connect. Check whether Wi-Fi is down. If it is operating, prepare a ticket about this problem.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "It appears that there is a known outage with the Wi-Fi service across campus, which is why Campus-Demo is not connecting. Unfortunately, I cannot prepare a ticket for this issue since the service is currently down. Please check back later for updates on the service status.",
+    "launch_command": "python chat.py --user demo-user-a --thread s07 --profile wifi_outage --scenario S07 --log outputs/S07.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "The same request during a Wi-Fi outage",
+    "scenario_part": 2,
+    "ticket_copies": []
+  }
+]

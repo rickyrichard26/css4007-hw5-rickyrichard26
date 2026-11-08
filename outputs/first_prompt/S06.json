@@ -1,0 +1,96 @@
+[
+  {
+    "scenario": "S06",
+    "process_id": 14360,
+    "user_id": "demo-user-a",
+    "thread_id": "s06",
+    "checkpoint_key": "demo-user-a:s06",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Show me the Wi-Fi troubleshooting steps.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "find_instructions",
+        "args": {
+          "topic": "wifi"
+        },
+        "source": "helpdesk reference file (data/helpdesk.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "Here are the Wi-Fi troubleshooting steps:\n\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket.",
+    "launch_command": "python chat.py --user demo-user-a --thread s06 --profile normal --scenario S06 --log outputs/S06.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Instructions then local ticket",
+    "scenario_part": 2,
+    "ticket_copies": []
+  },
+  {
+    "scenario": "S06",
+    "process_id": 14360,
+    "user_id": "demo-user-a",
+    "thread_id": "s06",
+    "checkpoint_key": "demo-user-a:s06",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "I enabled Wi-Fi and forgot the saved network, but Campus-Demo still will not connect. Check whether Wi-Fi is down. If it is operating, prepare a ticket about this problem.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 4
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      },
+      {
+        "tool": "prepare_ticket",
+        "args": {
+          "category": "wifi",
+          "summary": "Unable to connect to Campus-Demo network after enabling Wi-Fi and forgetting the saved network.",
+          "steps_tried": [
+            "Enabled Wi-Fi and turned off airplane mode.",
+            "Forgot the saved network and tried connecting again."
+          ]
+        },
+        "source": "local ticket draft file (write)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [
+      "local-storage\\tickets\\HD-7E1C311E.json"
+    ],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "The Wi-Fi service is operational, and I have prepared a draft ticket for your issue. Here are the details:\n\n**Ticket Summary:** Unable to connect to Campus-Demo network after enabling Wi-Fi and forgetting the saved network.\n\n**Steps Tried:**\n1. Enabled Wi-Fi and turned off airplane mode.\n2. Forgot the saved network and tried connecting again.\n\nIf you need any further assistance, feel free to ask!",
+    "launch_command": "python chat.py --user demo-user-a --thread s06 --profile normal --scenario S06 --log outputs/S06.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Instructions then local ticket",
+    "scenario_part": 2,
+    "ticket_copies": [
+      "outputs/tickets/HD-7E1C311E.json"
+    ]
+  }
+]

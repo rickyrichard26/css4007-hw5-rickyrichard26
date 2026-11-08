@@ -1,0 +1,17 @@
+{
+  "ticket_id": "HD-7E1C311E",
+  "status": "draft",
+  "user_id": "demo-user-a",
+  "thread_id": "s06",
+  "category": "wifi",
+  "summary": "Unable to connect to Campus-Demo network after enabling Wi-Fi and forgetting the saved network.",
+  "steps_tried": [
+    "Enabled Wi-Fi and turned off airplane mode.",
+    "Forgot the saved network and tried connecting again."
+  ],
+  "service_status": "operational",
+  "status_profile": "normal",
+  "reference_ids": [
+    "GUIDE-WIFI"
+  ]
+}

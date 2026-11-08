@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "S03",
+    "scenario_title": "Unsupported request",
+    "scenario_part": 1,
+    "launch_command": "python run_scenarios.py --only S03",
+    "graph_variant": "original",
+    "status_profile": "normal",
+    "user_id": "demo-user-a",
+    "thread_id": "s03",
+    "user_message": "My laptop screen is broken.",
+    "nodes_visited": [
+      "read_request",
+      "other_help"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other"
+        }
+      },
+      {
+        "after_node": "other_help",
+        "state": {
+          "message": "My laptop screen is broken.",
+          "category": "other",
+          "reply": "Is your problem about Wi-Fi or a password?"
+        }
+      }
+    ],
+    "information_source": "none (fixed rules in the graph)",
+    "final_response": "Is your problem about Wi-Fi or a password?",
+    "ticket_file": null,
+    "loop_limit_reached": "not applicable (no model, no loop)"
+  }
+]

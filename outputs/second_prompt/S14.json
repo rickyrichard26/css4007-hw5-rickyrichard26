@@ -1,0 +1,40 @@
+[
+  {
+    "scenario": "S14",
+    "process_id": 18868,
+    "user_id": "demo-user-a",
+    "thread_id": "s14",
+    "checkpoint_key": "demo-user-a:s14",
+    "status_profile": "recovery_outage",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "My password recovery page is unavailable. Check the service status. Is there a known problem?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "password"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "There is currently an outage with the password recovery service, which is why the page is unavailable. Unfortunately, I cannot provide a repair time. If you need further assistance, please let me know!",
+    "launch_command": "python chat.py --user demo-user-a --thread s14 --profile recovery_outage --scenario S14 --log outputs/S14.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Password recovery outage",
+    "scenario_part": 2,
+    "ticket_copies": []
+  }
+]

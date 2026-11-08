@@ -1,0 +1,16 @@
+{
+  "ticket_id": "HD-A07BBB99",
+  "status": "draft",
+  "user_id": "demo-user-a",
+  "thread_id": "restart-a",
+  "category": "wifi",
+  "summary": "Wi-Fi қосылған, бірақ қайта қосу сәтсіз.",
+  "steps_tried": [
+    "Wi-Fi қосылды, қайта қосуға тырыстым."
+  ],
+  "service_status": "operational",
+  "status_profile": "normal",
+  "reference_ids": [
+    "GUIDE-WIFI"
+  ]
+}

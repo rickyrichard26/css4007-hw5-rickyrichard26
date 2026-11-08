@@ -1,0 +1,85 @@
+[
+  {
+    "scenario": "S09",
+    "process_id": 3604,
+    "user_id": "demo-user-a",
+    "thread_id": "s09",
+    "checkpoint_key": "demo-user-a:s09",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Prepare a support ticket.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "Could you please provide me with the problem description and the steps you have already tried? This information is necessary to prepare the ticket.",
+    "launch_command": "python chat.py --user demo-user-a --thread s09 --profile normal --scenario S09 --log outputs/S09.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Missing ticket details",
+    "scenario_part": 2,
+    "ticket_copies": []
+  },
+  {
+    "scenario": "S09",
+    "process_id": 3604,
+    "user_id": "demo-user-a",
+    "thread_id": "s09",
+    "checkpoint_key": "demo-user-a:s09",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "The issue is Wi-Fi. I enabled it and tried reconnecting, but it still fails.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 2
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      },
+      {
+        "tool": "prepare_ticket",
+        "args": {
+          "category": "wifi",
+          "summary": "Wi-Fi is enabled but fails to reconnect.",
+          "steps_tried": [
+            "Enabled Wi-Fi and tried reconnecting."
+          ]
+        },
+        "source": "local ticket draft file (write)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [
+      "local-storage\\tickets\\HD-F9FA2463.json"
+    ],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "The support ticket has been successfully prepared. Here are the details:\n\n- **Ticket ID:** HD-F9FA2463\n- **Category:** Wi-Fi\n- **Summary:** Wi-Fi is enabled but fails to reconnect.\n- **Steps Tried:** Enabled Wi-Fi and tried reconnecting.\n- **Service Status:** Operational\n\nIf you need any further assistance, feel free to ask!",
+    "launch_command": "python chat.py --user demo-user-a --thread s09 --profile normal --scenario S09 --log outputs/S09.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Missing ticket details",
+    "scenario_part": 2,
+    "ticket_copies": [
+      "outputs/tickets/HD-F9FA2463.json"
+    ]
+  }
+]

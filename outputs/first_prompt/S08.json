@@ -1,0 +1,58 @@
+[
+  {
+    "scenario": "S08",
+    "process_id": 2680,
+    "user_id": "demo-user-a",
+    "thread_id": "s08",
+    "checkpoint_key": "demo-user-a:s08",
+    "status_profile": "status_unavailable",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Check whether Wi-Fi is down. If it is operating, prepare a ticket. I already enabled Wi-Fi and reconnected, with no success.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      },
+      {
+        "tool": "prepare_ticket",
+        "args": {
+          "category": "wifi",
+          "summary": "Unable to connect to Wi-Fi after enabling and reconnecting.",
+          "steps_tried": [
+            "Enabled Wi-Fi",
+            "Reconnected to the network"
+          ]
+        },
+        "source": "local ticket draft file (write)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [
+      "local-storage\\tickets\\HD-97A4C279.json"
+    ],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "The Wi-Fi service status is currently unknown, so I have prepared a draft ticket for you. Here are the details:\n\n- **Ticket ID:** HD-97A4C279\n- **Summary:** Unable to connect to Wi-Fi after enabling and reconnecting.\n- **Steps Tried:** Enabled Wi-Fi, Reconnected to the network.\n\nIf you need further assistance or want to submit the ticket, please let me know!",
+    "launch_command": "python chat.py --user demo-user-a --thread s08 --profile status_unavailable --scenario S08 --log outputs/S08.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Status source unavailable",
+    "scenario_part": 2,
+    "ticket_copies": [
+      "outputs/tickets/HD-97A4C279.json"
+    ]
+  }
+]

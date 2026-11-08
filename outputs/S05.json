@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "S05",
+    "scenario_title": "Two topics after adding clarification",
+    "scenario_part": 1,
+    "launch_command": "python run_scenarios.py --only S05",
+    "graph_variant": "with_clarification",
+    "status_profile": "normal",
+    "user_id": "demo-user-a",
+    "thread_id": "s05",
+    "user_message": "My Wi-Fi password does not work.",
+    "nodes_visited": [
+      "read_request",
+      "clarify_problem"
+    ],
+    "states_after_node": [
+      {
+        "after_node": "read_request",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "both"
+        }
+      },
+      {
+        "after_node": "clarify_problem",
+        "state": {
+          "message": "My Wi-Fi password does not work.",
+          "category": "both",
+          "reply": "Your message mentions both Wi-Fi and a password. Which problem do you want to solve first: connecting to Wi-Fi, or recovering your account password?"
+        }
+      }
+    ],
+    "information_source": "none (fixed rules in the graph)",
+    "final_response": "Your message mentions both Wi-Fi and a password. Which problem do you want to solve first: connecting to Wi-Fi, or recovering your account password?",
+    "ticket_file": null,
+    "loop_limit_reached": "not applicable (no model, no loop)"
+  }
+]

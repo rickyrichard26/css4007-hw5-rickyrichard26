@@ -1,0 +1,78 @@
+[
+  {
+    "scenario": "S12",
+    "process_id": 21076,
+    "user_id": "demo-user-a",
+    "thread_id": "preference-a1",
+    "checkpoint_key": "demo-user-a:preference-a1",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Please remember that I prefer replies in Kazakh. I have a Wi-Fi problem.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "save_language_preference",
+        "args": {
+          "language": "Kazakh"
+        },
+        "source": "user memory (write)"
+      }
+    ],
+    "memory_writes": [
+      {
+        "reply_language": "Kazakh"
+      }
+    ],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сәлем! Wi-Fi мәселеңіз туралы айтып беріңізші. Не болып жатыр?",
+    "launch_command": "python chat.py --user demo-user-a --thread preference-a1 --profile normal --scenario S12 --log outputs/S12.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Preference across threads without replay",
+    "scenario_part": 3,
+    "ticket_copies": []
+  },
+  {
+    "scenario": "S12",
+    "process_id": 8072,
+    "user_id": "demo-user-a",
+    "thread_id": "preference-a2",
+    "checkpoint_key": "demo-user-a:preference-a2",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Which language did I ask you to use? What can you help with?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сіз мені қазақ тілінде жауап беруді сұрадыңыз. Мен Wi-Fi мәселелерін шешу, парольді қалпына келтіру бойынша нұсқаулық беру, қызметтің күйін тексеру және ЖЕРГІЛІКТІ билет жобаларын дайындау бойынша көмектесе аламын. Басқа сұрақтарға жауап бере алмаймын.",
+    "launch_command": "python chat.py --user demo-user-a --thread preference-a2 --profile normal --scenario S12 --log outputs/S12.json   (messages sent through stdin, one per turn)",
+    "scenario_title": "Preference across threads without replay",
+    "scenario_part": 3,
+    "ticket_copies": []
+  }
+]
