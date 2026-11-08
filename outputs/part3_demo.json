@@ -1,0 +1,324 @@
+[
+  {
+    "scenario": "demo1",
+    "process_id": 27800,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-1",
+    "checkpoint_key": "demo-user-a:thread-1",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "My Wi-Fi does not connect to Campus-Demo.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "The Wi-Fi service is operational, and there are no reported outages. Let's troubleshoot your connection issue. \n\nCould you please let me know what steps you've already tried to connect to Campus-Demo?"
+  },
+  {
+    "scenario": "demo1",
+    "process_id": 28340,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-1",
+    "checkpoint_key": "demo-user-a:thread-1",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "I already tried that.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 4
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "Could you please specify what steps you have already tried to connect to Campus-Demo? This will help me prepare a draft ticket for you."
+  },
+  {
+    "scenario": "demo2",
+    "process_id": 18160,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-1",
+    "checkpoint_key": "demo-user-a:thread-1",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Please summarize what we have discussed so far and what I should do next.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 6
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "Here's a summary of our discussion:\n\n1. You are experiencing issues connecting to the Wi-Fi network \"Campus-Demo.\"\n2. I checked the service status, and it is operational with no reported outages.\n3. I need to know the specific steps you've already tried to connect to prepare a draft ticket for further assistance.\n\n**Next Steps:**\nPlease provide the steps you've already tried to connect to the Wi-Fi network, and I will prepare a draft ticket for you."
+  },
+  {
+    "scenario": "demo3",
+    "process_id": 17756,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-1",
+    "checkpoint_key": "demo-user-a:thread-1",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Please reply in Kazakh from now on.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 8
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "save_language_preference",
+        "args": {
+          "language": "Kazakh"
+        },
+        "source": "user memory (write)"
+      }
+    ],
+    "memory_writes": [
+      {
+        "reply_language": "Kazakh"
+      }
+    ],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сәлем! Біз талқылаған нәрселердің қысқаша мазмұны:\n\n1. Сіз \"Campus-Demo\" Wi-Fi желісіне қосылуда қиындықтар көріп отырсыз.\n2. Мен қызметтің күйін тексердім, және ол жұмыс істеп тұр, ешқандай ақаулар жоқ.\n3. Мен сіздің Wi-Fi желісіне қосылу үшін қандай қадамдарды жасағаныңызды білуім керек, сонда мен сізге қолдау билетінің жобасын дайындай аламын.\n\n**Келесі қадамдар:**\nWi-Fi желісіне қосылу үшін қандай қадамдарды жасағаныңызды айтып берсеңіз, мен сіз үшін билет жобасын дайындаймын."
+  },
+  {
+    "scenario": "demo3",
+    "process_id": 384,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-2",
+    "checkpoint_key": "demo-user-a:thread-2",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "How do I recover my password?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "find_instructions",
+        "args": {
+          "topic": "password"
+        },
+        "source": "helpdesk reference file (data/helpdesk.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Парольді қалпына келтіру үшін мына қадамдарды орындаңыз:\n\n1. Практикаға кіретін экранды ашып, \"Парольді ұмыттыңыз ба?\" дегенді таңдаңыз.\n2. Практика қосымшасы көрсеткен қалпына келтіру нұсқауларын орындаңыз.\n3. Егер қалпына келтіру мүмкін болмаса, қате туралы сипаттама беріп, билет дайындаңыз.\n4. Билеттің ішінде пароль немесе қалпына келтіру кодын қоспаңыз."
+  },
+  {
+    "scenario": "demo3",
+    "process_id": 12412,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-2",
+    "checkpoint_key": "demo-user-a:thread-2",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "What problem did I report earlier in this conversation?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 4
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Сіз осы әңгімеде парольді қалпына келтіру туралы сұрадыңыз."
+  },
+  {
+    "scenario": "demo1b",
+    "process_id": 12576,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-4",
+    "checkpoint_key": "demo-user-a:thread-4",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "My Wi-Fi does not connect to Campus-Demo. What should I try?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "find_instructions",
+        "args": {
+          "topic": "wifi"
+        },
+        "source": "helpdesk reference file (data/helpdesk.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Wi-Fi-ды Campus-Demo желісіне қосу үшін мына қадамдарды орындап көріңіз:\n\n1. Wi-Fi қосулы екеніне және ұшақ режимі өшірілгеніне көз жеткізіңіз.\n2. Campus-Demo желісін таңдаңыз.\n3. Егер қосылу сәтсіз болса, сақталған желіні ұмытуды (forget) және қайтадан қосылуға тырысыңыз.\n4. Егер мәселе шешілмесе, билет дайындамас бұрын қызметтің статусын тексеріңіз.\n\nЕгер мәселе шешілмесе, мен қызметтің статусын тексеруге көмектесемін."
+  },
+  {
+    "scenario": "demo1b",
+    "process_id": 23800,
+    "user_id": "demo-user-a",
+    "thread_id": "thread-4",
+    "checkpoint_key": "demo-user-a:thread-4",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "I already tried that.",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 4
+    },
+    "read_user_memory": {
+      "reply_language": "Kazakh"
+    },
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "check_service_status",
+        "args": {
+          "service": "wifi"
+        },
+        "source": "service status snapshot (data/service_status.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {
+      "reply_language": "Kazakh"
+    },
+    "limit_reached": false,
+    "final_answer": "Wi-Fi қызметі қалыпты жұмыс істеп тұр. Енді мен сіздің мәселеңіз бойынша билет дайындауға көмектесемін. \n\nСізде қандай проблема бар екенін және қандай қадамдарды орындағаныңызды айтып берсеңіз, мен билет дайындай аламын."
+  },
+  {
+    "scenario": "demo4",
+    "process_id": 10556,
+    "user_id": "demo-user-b",
+    "thread_id": "thread-3",
+    "checkpoint_key": "demo-user-b:thread-3",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "How do I connect to Wi-Fi?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 0
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node",
+      "tool_node",
+      "model_node"
+    ],
+    "tool_requests": [
+      {
+        "tool": "find_instructions",
+        "args": {
+          "topic": "wifi"
+        },
+        "source": "helpdesk reference file (data/helpdesk.json)"
+      }
+    ],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "Here are the steps to connect to the Wi-Fi:\n\n1. Check that Wi-Fi is enabled and airplane mode is off.\n2. Select the fictional Campus-Demo network.\n3. If the connection fails, forget the saved network and try connecting again.\n4. If the problem remains, check the service status before preparing a ticket.\n\nIf you need further assistance, feel free to ask!"
+  },
+  {
+    "scenario": "demo4",
+    "process_id": 2196,
+    "user_id": "demo-user-b",
+    "thread_id": "thread-3",
+    "checkpoint_key": "demo-user-b:thread-3",
+    "status_profile": "normal",
+    "model": "openai/gpt-4o-mini",
+    "provider": "openrouter.ai",
+    "user_message": "Which language preference do you have saved for me?",
+    "read_conversation_memory": {
+      "earlier_messages_loaded": 4
+    },
+    "read_user_memory": {},
+    "nodes_visited": [
+      "model_node"
+    ],
+    "tool_requests": [],
+    "memory_writes": [],
+    "tickets_saved": [],
+    "user_memory_after": {},
+    "limit_reached": false,
+    "final_answer": "I don't have any language preference saved for you. If you'd like to set a specific language for our conversations, please let me know!"
+  }
+]
