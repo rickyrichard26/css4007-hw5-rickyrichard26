@@ -270,11 +270,37 @@ The preference travelled to a new thread of the same user, while the conversatio
 
 ## Part 4 — Running and checking my work
 
-TODO: point to the README setup steps, package versions, memory-reset instructions, tests and GitHub Actions workflow. Explain which mistake each test catches and which runs use a fake model.
+- **Setup, run commands, memory locations and reset:** see `README.md` (Python 3.12, `pip install -r requirements.txt`, copy `.env.example` to `.env`).
+- **Package versions:** `requirements.txt` holds the exact versions from my environment (`pip freeze` of the packages I import and their LangChain/LangGraph core).
+- **Tests:** `python -m pytest -q`, in `tests/test_helpdesk.py`.
+- **GitHub Actions:** `.github/workflows/tests.yml` installs the pinned packages and runs the tests on every push, without any API key.
+
+The tests use a **scripted fake model** (`FakeModel`). It returns fixed replies and tool requests, so the tests check my code (graphs, tools, memory), not the quality of a real model. All demos, S06–S14 and the Part 2/3 runs use the real model `openai/gpt-4o-mini` through OpenRouter; S01–S05 use no model.
+
+| Test | Mistake it would catch |
+| --- | --- |
+| `test_original_graph_routes` | A wrong route, for example password text going to the Wi-Fi node, or case-sensitive matching |
+| `test_clarify_graph_asks_when_both_topics` | The clarification node not being reached, or other routes changing after my graph change |
+| `test_find_instructions_known_and_unknown` | A wrong instruction id, or an unknown topic returning made-up steps |
+| `test_status_follows_selected_snapshot` | The status tool ignoring the selected snapshot, or mapping password to the wrong service |
+| `test_ticket_contains_only_given_steps_and_is_saved` | A ticket with invented steps, a wrong template field, or no local file |
+| `test_ticket_needs_details_and_writes_nothing` | A ticket created from missing information |
+| `test_ticket_rejects_secrets` | A password or recovery code being written into a ticket |
+| `test_loop_runs_requested_tool_and_returns_result_to_model` | The tool result not reaching the model, or the loop not ending after the answer |
+| `test_loop_limit_stops_a_model_that_never_stops` | An endless tool loop (the step limit not working) |
+| `test_user_memory_persists_and_is_per_user` | A preference lost after reload, or shared between users |
+| `test_memory_tool_writes_only_for_its_fixed_user` | The model choosing whose memory to write, or a language value used to inject text |
+| `test_conversation_survives_reconnect_and_stays_with_its_key` | Conversation state lost after closing the database, or leaking to another user's key |
+| `test_saved_preference_reaches_only_its_own_users_prompt` | The saved language appearing in another user's prompt |
 
 ## Choices and limitations
 
-TODO: explain the storage and libraries I chose, why they fit this task, and what still does not work reliably.
+- **Storage:** SQLite (LangGraph `SqliteSaver`) for conversation state, because it is a single local file, survives restarts and is included in the supplied dependencies. A small JSON file for user preferences, because there is only one preference type and it is easy to inspect and reset. Both live in `local-storage/`, which git ignores.
+- **Libraries:** `langgraph` for the graphs, `langchain-openai` for the model client (also used for OpenRouter through its OpenAI-compatible API), `pytest` for tests.
+- **Tool access:** `user_id`, `thread_id` and the status profile are fixed by my application inside the tools; the model cannot choose them.
+- **Model behaviour depends on the prompt.** With `gpt-4o-mini` my first system prompt created a ticket during S08 (status unknown), and created tickets nobody asked for in S10 and S11. A second version made S06 regress (the model asked again for details it already had). The final prompt has explicit ticket rules and three examples. The logs of the earlier versions are in `outputs/first_prompt/` and `outputs/second_prompt/`.
+- **Remaining weaknesses:** in S14 the model still mentions that it cannot prepare a ticket although none was requested. In S09 it prepared the ticket without calling `check_service_status` first (the ticket tool reads the snapshot itself). Saving a preference depends on the model deciding to call `save_language_preference`; it worked in my runs but nothing forces it. Earlier Part 2 and Part 3 logs were made with earlier versions of the system prompt. Replies in Kazakh were not checked by a fluent reader.
+- **Tests do not measure the real model.** They check the graph structure, tools and memory with a fake model.
 
 ## Supplied scenarios — my actual results
 
