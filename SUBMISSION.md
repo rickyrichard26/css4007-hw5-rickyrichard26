@@ -219,14 +219,54 @@ The same request with the other two snapshots (`outputs/part2_multi_wifi_outage.
 
 ## Part 3 — Memory
 
-TODO: explain conversation state, thread_id, user identifier, user preference storage, and retrieval from helpdesk.json.
+### Two kinds of memory
+
+| | Conversation memory | User memory |
+| --- | --- | --- |
+| What it holds | Earlier messages in one conversation: the problem, steps already tried, tool results | A saved preference of one user (reply language) |
+| Mechanism | LangGraph checkpointer (`SqliteSaver`), file `local-storage/conversations.sqlite` | JSON file `local-storage/user_memory.json`, one entry per `user_id` |
+| Key | `thread_id` (combined with `user_id`) | `user_id` |
+| Lifetime | Until the thread is reset | Across all threads of the same user |
+
+Both files are in `local-storage/`, which is ignored by git. They survive closing and restarting the program because they are files on disk.
+
+**Conversation state.** After every step LangGraph saves a checkpoint of the state (message history and counters) under a key. When a turn starts with the same key, the saved messages are loaded first, so the model sees what was said before. That is why "I already tried that" can be understood. The `steps` counter is reset at the start of each turn so the loop limit applies per turn.
+
+**`thread_id` vs. user identifier.** A `thread_id` identifies one conversation. A `user_id` identifies the person. One user can have many threads, and a preference belongs to the user, not to a thread. My application supplies both values, and the model cannot choose them. The checkpoint key is `user_id:thread_id`, so two users that use the same thread name still get separate histories.
+
+**User preference storage.** The model can save a preference only through the tool `save_language_preference`, and only when the user asks for it. The tool writes to `user_memory.json` under the `user_id` fixed by my application. At each model call my code reads that file and adds the saved language to the system prompt. Preferences are not read from `demo_users.json`.
+
+**Retrieval vs. memory.** Looking up Wi-Fi or password instructions in `data/helpdesk.json` is *retrieval*: shared reference knowledge that is the same for everyone. Remembering that this user wants replies in Kazakh is *memory*: information about one person, learned from their own message, which must not reach another user. The log field `source` shows the difference.
+
+### Predictions
+
+I wrote this table after the runs, from the design of the memory (checkpoint key `user_id:thread_id`, preferences stored per `user_id`), so these are design-based predictions that I checked against the logs, not blind predictions.
+
+| Situation | Conversation memory I expected to be read | User memory I expected to be read | Behaviour I expected |
+| --- | --- | --- | --- |
+| Refer to an earlier message | Turn 1: nothing. Turn 2: the messages of the same thread. | Nothing saved yet | The model uses the earlier turn to understand "that" |
+| Close, restart and resume | The same thread's messages, loaded from the SQLite file by a new process | Nothing saved yet | A correct summary of the earlier conversation |
+| Same user, new conversation | Nothing in a new thread; the old thread is not loaded | The saved Kazakh preference | Replies in Kazakh, but does not know the problem from the first thread |
+| Different user | Only that user's own thread | Empty, because the preference belongs to `demo-user-a` | English replies, and no access to the other user's preference |
+
+### What I ran and what happened
+
+Every command starts a **new Python process** (the process id is saved in the log). All commands use `--profile normal --log outputs/part3_demo.json`. Each log entry records the process id, user, thread, number of earlier messages loaded (conversation memory), preferences read (user memory), the tools called with their data source, and what was written to memory.
 
 | Situation | Command used | Log file | What happened |
 | --- | --- | --- | --- |
-| Refer to an earlier message | | | |
-| Close, restart and resume | | | |
-| Same user, new conversation | | | |
-| Different user | | | |
+| Refer to an earlier message | `python chat.py --reset --scenario demo1 --user demo-user-a --thread thread-1 ... --message "My Wi-Fi does not connect to Campus-Demo."` then `... --message "I already tried that."`; stronger repeat: `--scenario demo1b --thread thread-4` with `"... What should I try?"` then `"I already tried that."` | `outputs/part3_demo.json` (`demo1`, `demo1b`) | In `demo1` turn 2 (pid 28340) loaded 4 earlier messages and still knew the problem was Campus-Demo, but the assistant had given no instructions in turn 1, so "that" had nothing specific to point to and the model asked again about my steps. In `demo1b` turn 1 called `find_instructions("wifi")`. Turn 2 (new process, pid 23800) loaded 4 earlier messages and called `check_service_status`, which is the last step of those instructions, so "that" was understood. It then asked for the problem and steps again instead of creating a ticket. |
+| Close, restart and resume | `python chat.py --scenario demo2 --user demo-user-a --thread thread-1 ... --message "Please summarize what we have discussed so far and what I should do next."` | `outputs/part3_demo.json` (`demo2`) | A new process (pid 18160) resumed `thread-1` and loaded 6 earlier messages. The summary listed the Wi-Fi problem, the operational status check and the missing steps. |
+| Same user, new conversation | `python chat.py --scenario demo3 --user demo-user-a --thread thread-1 ... --message "Please reply in Kazakh from now on."`, then `--thread thread-2 ... --message "How do I recover my password?"`, then `--thread thread-2 ... --message "What problem did I report earlier in this conversation?"` | `outputs/part3_demo.json` (`demo3`) | `thread-1`: the model called `save_language_preference("Kazakh")`, and the preference was written to user memory. `thread-2` (pid 384): 0 earlier messages, preference read as Kazakh, the model called `find_instructions("password")` (helpdesk reference file) and answered in Kazakh. Asked what I had reported, it answered only from `thread-2` (password recovery), not from the Wi-Fi problem in `thread-1`. |
+| Different user | `python chat.py --scenario demo4 --user demo-user-b --thread thread-3 ... --message "How do I connect to Wi-Fi?"`, then `... --message "Which language preference do you have saved for me?"` | `outputs/part3_demo.json` (`demo4`) | `demo-user-b` had no stored preference (`read_user_memory` was empty) and got English replies with the Wi-Fi steps from `helpdesk.json`. Asked about a saved preference, the model said none was saved. `local-storage/user_memory.json` contains only `demo-user-a`. |
+
+Where the information came from in each demonstration:
+
+- **Conversation memory:** `read_conversation_memory.earlier_messages_loaded` in the log (the checkpointer).
+- **User memory:** `read_user_memory` before a turn and `user_memory_after` after it (`user_memory.json`).
+- **Helpdesk reference file:** tool requests with the source "helpdesk reference file (data/helpdesk.json)" or "service status snapshot".
+
+The preference travelled to a new thread of the same user, while the conversation did not, and it never reached `demo-user-b`. All four situations behaved as predicted. The only weak result was the first attempt at "Refer to an earlier message": the assistant had given no instructions in turn 1, so "that" had nothing specific to refer to, which is why I added the `demo1b` run. In `demo1b` the earlier messages were used correctly, but the model still asked for the problem and the steps again instead of preparing a ticket, so it is more cautious than I expected. Nothing from `demo-user-a` reached `demo-user-b`.
 
 ## Part 4 — Running and checking my work
 
